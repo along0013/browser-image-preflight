@@ -1,0 +1,9 @@
+category,question,how_to_check
+Privacy,Does the tool state whether files leave the browser?,Read the first-screen privacy statement and inspect the network design.
+Input,Are accepted image formats shown before selection?,Check the picker label and help text.
+Input,Does the tool show image dimensions after selection?,Select a test image and compare the displayed pixel dimensions.
+Workflow,Can a visitor understand the next editing action?,Read the tool hint without using the product.
+Output,Is the output format stated before download?,Check the download button and output help text.
+Output,Does export preserve expected pixel dimensions?,Compare source and downloaded file dimensions.
+Mobile,Are controls usable at 390 CSS pixels wide?,Check that labels, buttons, and disclosures remain visible without horizontal scrolling.
+Disclosure,Are commercial links identified as referral links?,Place a plain-language disclosure next to the outbound link.

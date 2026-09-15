@@ -46,9 +46,9 @@
     let currentFile;
 
     const formatBytes = bytes => {
-      if (bytes < 1024) return \`\${bytes} B\`;
-      if (bytes < 1024 * 1024) return \`\${(bytes / 1024).toFixed(1)} KB\`;
-      return \`\${(bytes / (1024 * 1024)).toFixed(2)} MB\`;
+      if (bytes < 1024) return `${bytes} B`;
+      if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+      return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
     };
 
     input.addEventListener('change', () => {
@@ -61,7 +61,7 @@
 
       const url = URL.createObjectURL(file);
       preview.onload = () => {
-        document.querySelector('#dimensions').textContent = \`\${preview.naturalWidth} × \${preview.naturalHeight}\`;
+        document.querySelector('#dimensions').textContent = `${preview.naturalWidth} × ${preview.naturalHeight}`;
         details.hidden = false;
         URL.revokeObjectURL(url);
       };
@@ -77,7 +77,7 @@
       canvas.toBlob(blob => {
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
-        link.download = \`\${currentFile.name.replace(/\\.[^.]+$/, '') || 'image'}-preflight.png\`;
+        link.download = `${currentFile.name.replace(/\.[^.]+$/, '') || 'image'}-preflight.png`;
         link.click();
         URL.revokeObjectURL(link.href);
       }, 'image/png');
