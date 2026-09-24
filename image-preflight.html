@@ -36,6 +36,7 @@
     </dl>
     <img id="preview" alt="Selected image preview">
     <button id="download" type="button">Export as PNG</button>
+    <p class="notice" id="status" hidden aria-live="polite"></p>
   </section>
 
   <script>
@@ -43,6 +44,7 @@
     const details = document.querySelector('#details');
     const preview = document.querySelector('#preview');
     const download = document.querySelector('#download');
+    const status = document.querySelector('#status');
     let currentFile;
 
     const formatBytes = bytes => {
@@ -75,11 +77,23 @@
       canvas.height = preview.naturalHeight;
       canvas.getContext('2d').drawImage(preview, 0, 0);
       canvas.toBlob(blob => {
+        if (!blob) {
+          // toBlob returns null when the browser cannot encode the canvas
+          // (oversized image, out of memory). Say so instead of downloading nothing.
+          status.textContent = 'This browser could not export the image. The file on disk is untouched.';
+          status.hidden = false;
+          return;
+        }
         const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
+        const url = URL.createObjectURL(blob);
+        link.href = url;
         link.download = `${currentFile.name.replace(/\.[^.]+$/, '') || 'image'}-preflight.png`;
         link.click();
-        URL.revokeObjectURL(link.href);
+        // Revoke on a timer: releasing the URL in the same tick can cancel the
+        // download before the browser has read it.
+        setTimeout(() => URL.revokeObjectURL(url), 10000);
+        status.textContent = `Exported a ${canvas.width} × ${canvas.height} PNG of ${currentFile.name}. Nothing was uploaded.`;
+        status.hidden = false;
       }, 'image/png');
     });
   </script>
